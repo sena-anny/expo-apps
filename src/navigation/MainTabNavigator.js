@@ -1,6 +1,6 @@
 import { Constants } from 'expo';
-import { createStackNavigator } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 /* from app */
 import SearchScreen from 'app/src/screens/SearchScreen';
@@ -17,12 +17,56 @@ import {
 } from 'app/src/components/Tab';
 
 // StackNavigatorを簡単に作れるようにするための関数です
-const createTabStack = (title, screen) => createStackNavigator({
-  [title]: { screen },
-});
+const createTabStack = createStackNavigator();
+const bottonTab = createBottomTabNavigator();
 
 // メインのBottomTabNavigatorです。画面下部のタブ関連の処理(画面遷移等)を司ります。
-export default createBottomTabNavigator(
+export default bottomTabNavigator () {
+  retrun (
+    // ホームタブに関する設定を記述します。
+    <Tab.Navigator
+      initialRouteName="HomeTab"
+      tabBarOptions={{
+        activeTintColor: '#e91e63',
+      }}
+    >
+      <Tab.Screen
+        name="HomeTab"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Notifications"
+        component={NotificationScreen}
+        options={{
+          tabBarLabel: 'Updates',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bell" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={UserScreen}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  )
+}
+
+
+
+export createBottomTabNavigator(
   {
     // ホームタブに関する設定を記述します。
     HomeTab: {
@@ -46,12 +90,6 @@ export default createBottomTabNavigator(
         tabBarOnPress: () => { // アイコンタップ時にTakeModalスクリーンを開きます。
           navigation.push('TakeModal');
         },
-      }),
-    },
-    NotificationTab: {
-      screen: createTabStack('NotificationTab', NotificationScreen),
-      navigationOptions: () => ({
-        tabBarIcon: NotificationTabIcon,
       }),
     },
     MeTab: {

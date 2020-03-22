@@ -5,6 +5,8 @@ import { Asset } from 'expo-asset'
 import { Font } from 'expo-font'
 import fonts from 'app/src/fonts';
 import images from 'app/src/images';
+import { NavigationContainer } from '@react-navigation/native';
+import MainTabNavigator from 'app/src/navigation/MainTabNavigator'
 
 export default class App extends React.Component {
   static defaultProps = {
@@ -38,9 +40,9 @@ export default class App extends React.Component {
       );
     }
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Hello World</Text>
-      </View>
+      <NavigationContainer>
+        <MainTabNavigator />
+      </NavigationContainer>
     );
   }
 }
